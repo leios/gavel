@@ -34,6 +34,7 @@ class Annotator(db.Model):
         self.alpha = crowd_bt.ALPHA_PRIOR
         self.beta = crowd_bt.BETA_PRIOR
         self.secret = utils.gen_secret(32)
+        self.ignore.append(self)
 
     def update_next(self, new_next):
         if new_next is not None:
@@ -47,6 +48,14 @@ class Annotator(db.Model):
     def by_secret(cls, secret):
         try:
             annotator = cls.query.filter(cls.secret == secret).one()
+        except NoResultFound:
+            annotator = None
+        return annotator
+
+    @classmethod
+    def by_name(cls, name):
+        try:
+            annotator = cls.query.filter(cls.name == name).one()
         except NoResultFound:
             annotator = None
         return annotator

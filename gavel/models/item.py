@@ -27,6 +27,14 @@ class Item(db.Model):
         self.sigma_sq = crowd_bt.SIGMA_SQ_PRIOR
 
     @classmethod
+    def by_name(cls, name):
+        try:
+            item = cls.query.filter(cls.name == name).one()
+        except NoResultFound:
+            item = None
+        return item
+
+    @classmethod
     def by_id(cls, uid):
         if uid is None:
             return None
