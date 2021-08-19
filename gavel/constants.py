@@ -20,6 +20,10 @@ Welcome to Gavel.
 
 Gavel is a fully automated expo judging system that both tells you where to go
 and collects your votes.
+We are using this got the Summer of Math Exposition because it seems to be a well-tested and rigorous system to find winners in hack-a-thon settings.
+
+As an important note: this system is only used to find the top 100 applicants.
+Those applications will then be manually judged by Grant Sanderson, James Schloss, and other certified judges.
 
 The system is based on the model of pairwise comparison. You'll start off by
 looking at a single submission, and then for every submission after that,
@@ -39,7 +43,7 @@ DEFAULT_EMAIL_SUBJECT = 'Welcome to Gavel!'
 DEFAULT_EMAIL_BODY = '''
 Hi {name},
 
-Welcome to Gavel, the online expo judging system. This email contains your
+Welcome to Gavel, the online expo judging system that will be used for the Summer of Math Exposition (SoME1) competition. This email contains your
 magic link to the judging system.
 
 DO NOT SHARE this email with others, as it contains your personal magic link.
