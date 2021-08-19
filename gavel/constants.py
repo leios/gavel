@@ -20,9 +20,10 @@ Welcome to Gavel.
 
 Gavel is a fully automated expo judging system that both tells you where to go
 and collects your votes.
-We are using this got the Summer of Math Exposition because it seems to be a well-tested and rigorous system to find winners in hack-a-thon settings.
+We are using this for the Summer of Math Exposition (SoME1) because it seems to be a well-tested and rigorous system to find winners in hack-a-thon settings.
 
-As an important note: this system is only used to find the top 100 applicants.
+As an important note: we fully recognize that SoME1 is not a hack-a-thon.
+This system will only be used to find the top 100 applicants.
 Those applications will then be manually judged by Grant Sanderson, James Schloss, and other certified judges.
 
 The system is based on the model of pairwise comparison. You'll start off by
@@ -30,7 +31,7 @@ looking at a single submission, and then for every submission after that,
 you'll decide whether it's better or worse than the one you looked at
 **immediately beforehand**.
 
-If at any point, you can't find a particular submission, you can click the
+If at any point, you do not feel qualified to judge a particular submission, you can click the
 'Skip' button and you will be assigned a new project. **Please don't skip
 unless absolutely necessary.**
 

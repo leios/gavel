@@ -34,7 +34,6 @@ class Annotator(db.Model):
         self.alpha = crowd_bt.ALPHA_PRIOR
         self.beta = crowd_bt.BETA_PRIOR
         self.secret = utils.gen_secret(32)
-        self.ignore.append(self)
 
     def update_next(self, new_next):
         if new_next is not None:
