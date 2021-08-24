@@ -87,7 +87,7 @@ def send_emails(emails):
                 msg['Cc'] = ', '.join(settings.EMAIL_CC)
                 recipients.extend(settings.EMAIL_CC)
             msg['Subject'] = subject
-            msg.attach(email.mime.text.MIMEText(body, 'plain'))
+            msg.attach(email.mime.text.MIMEText(body, 'html'))
             server.sendmail(settings.EMAIL_FROM, recipients, msg.as_string())
         except Exception as e:
             exceptions.append(e) # XXX is there a cleaner way to handle this?
