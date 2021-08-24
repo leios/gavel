@@ -44,12 +44,19 @@ before you vote. **Once you make a decision, you can't take it back**.
 For other questions, please contact jrs.schloss@gmail.com
 '''.strip()
 
-DEFAULT_EMAIL_SUBJECT = 'Welcome to Gavel!'
+DEFAULT_EMAIL_SUBJECT = 'Welcome to the SoME1 Peer Review BETA!'
 
 DEFAULT_EMAIL_BODY = '''
 Hello!
 
-Thank you for agreeing to participate in the SoME1 peer review.
+Thank you for agreeing to participate in the SoME1 peer review Beta.
+
+Almost everything from this point forward will be "as-is" for the actual peer review.
+Please let me know on <a href="">discord</a> or send me an e-mail at jrs.schloss@gmail.com if there are any issues.
+For this, we are just checking the core functionality to make sure everyone can vote and I can monitor it alright during the real judging process, so feel free to click around randomly and try to break things!
+
+OK. On to everything else...
+
 This is an essential part of the judging process and we ask everyone to seriously consider each entry provided and weigh their merits against each other.
 We understand that this process is subjective, so please also use the <a href="https://docs.google.com/forms/d/e/1FAIpQLSc02JOlg0aAim5EukRlziSUdP59v40rgHizyW2PjNl-snfSTg/viewform?usp=sf_link">SoME1 Specific Feedback Form</a> whenever you feel it's necessary to provide more precise feedback.
 
