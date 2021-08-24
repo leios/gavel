@@ -18,7 +18,7 @@ Welcome to Gavel.
 
 **Please read this important message carefully before continuing.**
 
-Gavel is a fully automated expo judging system that both tells you where to go
+Gavel is a fully automated expo judging system that both provides links
 and collects your votes.
 We are using this for the Summer of Math Exposition (SoME1) because it seems to be a well-tested and rigorous system to find winners in hack-a-thon settings.
 
@@ -30,6 +30,8 @@ The system is based on the model of pairwise comparison. You'll start off by
 looking at a single submission, and then for every submission after that,
 you'll decide whether it's better or worse than the one you looked at
 **immediately beforehand**.
+
+Please also use the <a href="https://docs.google.com/forms/d/e/1FAIpQLSc02JOlg0aAim5EukRlziSUdP59v40rgHizyW2PjNl-snfSTg/viewform?usp=sf_link">SoME1 Specific Feedback Form</a> whenever you feel it's necessary to provide more precise feedback.
 
 If at any point, you do not feel qualified to judge a particular submission, you can click the
 'Skip' button and you will be assigned a new project.
@@ -47,7 +49,15 @@ DEFAULT_EMAIL_SUBJECT = 'Welcome to Gavel!'
 DEFAULT_EMAIL_BODY = '''
 Hello!
 
-Welcome to Gavel, the online expo judging system that will be used for the Summer of Math Exposition (SoME1) competition. This email contains your
+Thank you for agreeing to participate in the SoME1 peer review.
+This is an essential part of the judging process and we ask everyone to seriously consider each entry provided and weigh their merits against each other.
+We understand that this process is subjective, so please also use the <a href="https://docs.google.com/forms/d/e/1FAIpQLSc02JOlg0aAim5EukRlziSUdP59v40rgHizyW2PjNl-snfSTg/viewform?usp=sf_link">SoME1 Specific Feedback Form</a> whenever you feel it's necessary to provide more precise feedback.
+
+We are expecting each judge to look at at least 5 entries and will be checking to make sure this is the case; however, there is no limit to the number of entries a single person may judge.
+Each entry should take approximately 10 minutes to review, so we are expecting this to take less than an hour for each person.
+
+For this, we will be using Gavel, an online expo judging system typically used for Hack-a-thons. This email contains your magic link to the judging system.
+
 magic link to the judging system.
 
 DO NOT SHARE this email with others, as it contains your personal magic link.
@@ -56,6 +66,12 @@ To access the system, visit {link}.
 
 Once you're in, please take the time to read the welcome message and
 instructions before continuing.
+
+As an important note: we fully recognize that SoME1 is not a hack-a-thon.
+This system will only be used to find the top 100 applicants.
+Those applications will then be manually judged by Grant Sanderson, James Schloss, and other certified judges.
+
+For more information about Gavel, please read either <a href="https://www.anishathalye.com/2015/03/07/designing-a-better-judging-system/">this</a> and <a href="https://www.anishathalye.com/2015/11/09/implementing-a-scalable-judging-system/">this</a> blog post.
 '''.strip()
 
 DEFAULT_CLOSED_MESSAGE = '''
