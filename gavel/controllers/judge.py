@@ -164,8 +164,9 @@ def preferred_items(annotator):
     '''
     items = []
     ignored_ids = {i.id for i in annotator.ignore}
-    if Item.by_name(annotator.email):
-        ignored_ids.add(Item.by_name(annotator.name).id)
+
+    if Item.by_name(annotator.email.strip()):
+        ignored_ids.add(Item.by_name(annotator.email.strip()).id)
 
     if ignored_ids:
         available_items = Item.query.filter(
