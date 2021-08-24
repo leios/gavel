@@ -1,4 +1,4 @@
 <div class="info">
-  <p class="preserve-formatting">{{ item.description | safe }}</p>
+  <p><strong>Link:</strong><a href={{ item.description | safe }}>{{ item.description | safe }}</a></p>
   <p><strong>Intended Audience: </strong>{{ item.location | safe }}</p>
 </div>
