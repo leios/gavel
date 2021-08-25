@@ -47,7 +47,7 @@ For other questions, please contact jrs.schloss@gmail.com
 DEFAULT_EMAIL_SUBJECT = 'Welcome to the SoME1 Peer Review BETA!'
 
 DEFAULT_EMAIL_BODY = '''
-Hello!
+Hello {name}!
 
 <p>
 Thank you for agreeing to participate in the SoME1 peer review Beta.
@@ -57,6 +57,7 @@ Almost everything from this point forward will be "as-is" for the actual peer re
 Please let me know on <a href="">discord</a> or send me an e-mail at jrs.schloss@gmail.com if there are any issues.
 For this, we are just checking the core functionality to make sure everyone can vote and I can monitor it alright during the real judging process, so feel free to click around randomly and try to break things!
 
+<p>
 Also: for this, we have given everyone the same default youtube link to Grant's initial video about SoME1 and an id number for their intended audience.
 The system will be reset before launching the actual Peer Review system, so no worries! This will not affect anyone's score!
 
@@ -94,6 +95,11 @@ Those applications will then be manually judged by Grant Sanderson, James Schlos
 
 <p>
 For more information about Gavel, please read either <a href="https://www.anishathalye.com/2015/03/07/designing-a-better-judging-system/">this</a> and <a href="https://www.anishathalye.com/2015/11/09/implementing-a-scalable-judging-system/">this</a> blog post.
+
+<p>
+Thanks again for both your submission and your willingness to review others.
+We are excited to see all of the new, engaging math content everyone has made and hope you are too!
+
 '''.strip()
 
 DEFAULT_CLOSED_MESSAGE = '''
