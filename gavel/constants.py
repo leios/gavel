@@ -41,6 +41,7 @@ If there is a project that is improperly formatted or does not have an appropria
 
 Gavel makes it really simple for you to submit votes, but please think hard
 before you vote. **Once you make a decision, you can't take it back**.
+If you go back in your browser, you should not find previous entries, but instead the entries you are expected to be voting on next.
 
 For other questions, please contact jrs.schloss@gmail.com
 
