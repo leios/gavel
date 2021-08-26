@@ -81,7 +81,7 @@ If you find anything that you feel is out-of-line, please contact me at jrs.schl
 
 '''.strip()
 
-DEFAULT_EMAIL_SUBJECT = 'Welcome to the SoME1 Peer Review BETA!'
+DEFAULT_EMAIL_SUBJECT = 'Welcome to the SoME1 Peer Review!'
 
 DEFAULT_EMAIL_BODY = '''
 Hello {name}!
