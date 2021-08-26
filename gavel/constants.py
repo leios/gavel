@@ -48,6 +48,9 @@ For other questions, please contact jrs.schloss@gmail.com
 Thanks again for your willingness to participate in the Summer of Math Exposition!
 We are really excited to learn from everyone in the coming week!
 
+For specific questions, please checkout out the <a href="https://github.com/leios/gavel/wiki/Frequently-Asked-Questions">FAQ</a> or <a href="https://discord.gg/Vkf29b5s">Discord</a>.
+if you cannot find your answers there, please contact Dr. James Schloss at jrs.schloss@gmail.com
+
 <b>Judging Criteria</b>
 
 <p> 
@@ -118,6 +121,9 @@ Those applications will then be manually judged by Grant Sanderson, James Schlos
 <p>
 For more information about Gavel, please read either <a href="https://www.anishathalye.com/2015/03/07/designing-a-better-judging-system/">this</a> and <a href="https://www.anishathalye.com/2015/11/09/implementing-a-scalable-judging-system/">this</a> blog post.
 
+<p>
+For specific questions, please checkout out the <a href="https://github.com/leios/gavel/wiki/Frequently-Asked-Questions">FAQ</a> or <a href="https://discord.gg/Vkf29b5s">Discord</a>.
+if you cannot find your answers there, please contact Dr. James Schloss at jrs.schloss@gmail.com
 
 <p>
 <b>Judging Criteria</b>
