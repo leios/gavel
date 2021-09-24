@@ -7,12 +7,18 @@ function find_slug(str::Nothing)
 end
 
 function find_slug(str::String)
+    str = strip(str)
     if findfirst("youtube.com", str) != nothing
-        if findfirst("channel", str) != nothing
-            return "none"
+        if findfirst("channel/", str) != nothing
+            return "channel"
+        end
+        if findfirst("list", str) != nothing
+            return "channel"
         end
         if findfirst("&", str) != nothing
             return str[findfirst("=",str)[1]+1:findfirst("&",str)[1]-1]
+        elseif findfirst("=", str) == nothing
+            return "channel"
         else
             return str[findfirst("=",str)[1]+1:end]
         end
@@ -21,6 +27,8 @@ function find_slug(str::String)
     else
         return "none"
     end
+
+    return "none"
 end
 
 function format_cells!(df)
