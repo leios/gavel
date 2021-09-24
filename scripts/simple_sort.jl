@@ -2,6 +2,27 @@ using CSV
 using DataFrames
 using DelimitedFiles
 
+function find_slug(str::Nothing)
+    return "none"
+end
+
+function find_slug(str::String)
+    if findfirst("youtube.com", str) != nothing
+        if findfirst("channel", str) != nothing
+            return "none"
+        end
+        if findfirst("&", str) != nothing
+            return str[findfirst("=",str)[1]+1:findfirst("&",str)[1]-1]
+        else
+            return str[findfirst("=",str)[1]+1:end]
+        end
+    elseif findfirst("youtu.be", str) != nothing
+       return str[findlast("/",str)[1]+1:end]
+    else
+        return "none"
+    end
+end
+
 function format_cells!(df)
     df[:,2] .= strip.(df[:,2])
     df[:,4] .= strip.(df[:,4])
@@ -206,6 +227,21 @@ function simple_sort(filename, output_file, judge_file)
     return df
 end 
 
-df = simple_sort("SoME1 Entries.csv", "SoME1_entries.csv", "SoME1_judges.csv")
+function find_names(df_selected, df_entries)
+    names = ["" for i = 1:size(df_selected)[1]]
+    for i = 1:size(df_selected)[1]
+        for j = 1:size(df_entries)[1]
+            if df_selected[i,2] == df_entries[j,2]
+                names[i] = df_entries[j,3]
+            end
+        end
+        if names[i] == ""
+            println(df_selected[i,2])
+        end
+    end
+    return names
+end
+
+#df = simple_sort("SoME1 Entries.csv", "SoME1_entries.csv", "SoME1_judges.csv")
 #find_missing_entrants(df, "SoME1 Peer Review.csv", "missing_entrants.csv")
-judge_df = find_judges(df, "SoME1 Peer Review.csv", "judges", "entries.csv")
+#judge_df = find_judges(df, "SoME1 Peer Review.csv", "judges", "entries.csv")
