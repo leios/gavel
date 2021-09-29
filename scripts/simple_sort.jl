@@ -290,8 +290,8 @@ function send_feedback(feedback_df, entry_df, basic_body)
         end
     end
     
-    #return hcat(names, emails, specific_bodies, chosen_slugs)
-    send_emails(emails, names, specific_bodies, basic_body)
+    return hcat(emails, names, specific_bodies, chosen_slugs)
+    #send_emails(emails, names, specific_bodies, basic_body)
 end
 
 function send_emails(emails, names, specific_bodies, basic_body)
