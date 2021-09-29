@@ -221,8 +221,6 @@ function find_missing_entrants(entry_df, judge_filename, output_file)
     CSV.write(output_file, entry_df[indices,[3,2]])
 end
 
-
-
 function simple_sort(filename, output_file, judge_file)
     df = DataFrame(CSV.File(filename))
     remove_bad_links!(df)
@@ -249,6 +247,101 @@ function find_names(df_selected, df_entries)
     end
     return names
 end
+
+function send_feedback(feedback_df, entry_df, basic_body)
+
+    dropmissing!(feedback_df)
+
+    names = []
+    emails = []
+    specific_bodies = []
+    chosen_slugs = []
+
+    for i = 1:size(feedback_df)[1]
+        slug = find_slug(feedback_df[i,2])
+        if slug != "channel" && slug != "none"
+            feedback_df[i,2] = slug
+        end
+    end
+
+    for i = 1:size(entry_df)[1]
+        slug = find_slug(entry_df[i,4])
+        if slug != "channel" && slug != "none"
+            entry_df[i,4] = slug
+        end
+    end
+
+    for i = 1:size(feedback_df)[1]
+        slug = feedback_df[i,2]
+        if in(slug, chosen_slugs)
+            elid = findfirst(x->x==slug,chosen_slugs)
+            specific_bodies[elid] *= feedback_df[i,3]*"<p>-----<p>"
+        else
+            if in(slug,entry_df[:,4])
+                push!(chosen_slugs, slug)
+                push!(specific_bodies, feedback_df[i,3]*"<p>-----<p>")
+                elid = findfirst(x->x==slug,entry_df[:,4])
+                push!(names, entry_df[elid,3])
+                push!(emails, entry_df[elid,2])
+            else
+                println("could not find "*slug)
+            end
+            
+        end
+    end
+    
+    #return hcat(names, emails, specific_bodies, chosen_slugs)
+    send_emails(emails, names, specific_bodies, basic_body)
+end
+
+function send_emails(emails, names, specific_bodies, basic_body)
+    for i = 1:length(emails)
+        message = "To: "*emails[i]*"\n"
+        message *= "From: jrs.schloss@gmail.com\n"
+        message *= "Subject: SoME1 Specific Feedback\n"
+        message *= "Mime-Version: 1.0\n"
+        message *= "Content-Type: text/html\n\n"
+        message *= "Hello "*names[i]*",<p>"
+        message *= basic_body
+        message *= specific_bodies[i]
+
+        sendEmailCmd = pipeline(IOBuffer(message), `sendmail -t`)
+        run(sendEmailCmd)
+        println(emails[i])
+        sleep(1)
+    end
+end
+
+basic_body = """
+<p>
+Thanks again for submitting exposition to the Summer of Math Exposition (SoME1) competition this year!
+
+<p>
+We could not be happier with the content people have created for this competition and are looking forward to running it again next year! No matter how you did, you should be really proud of the content you made!
+
+<p>
+During the peer review process, we asked people to provide specific feedback about the entries they were judging and have decided to return most of that feedback to you now; however, before reading it, there are a few things to keep in mind:
+
+<ol>
+<li>The SoME1 peer reviewers were quite biased towards video content. In fact, many reviewers mistakenly believed this competition was a video contest. This was one of the biases we tried to correct for at the end of the peer review, but if you made a non-video entry, there is a possibility that your specific feedback was asking for a video of some kind. </li>
+<li>We tried to pre-screen all the comments made, but might have missed some comments that were out-of-line (such as crude remarks, unjustified claims, or generally unhelpful / incorrect advice).</li>
+</ol>
+
+<p>
+Please keep in mind that this feedback is not from Grant or I, but instead from other SoME1 participants who may or may not be justified in making the statements they have made, so take everything they have said with a grain of salt and really consider whether their feedback is valid or not. On the other hand, this feedback is from motivated individuals who have also made math content and know how challenging it can be, so they might know more than you think!
+
+<p>
+Ok, that's all for now. Thank you for helping make the first Summer of Math Exposition a smashing success! We look forward to seeing more from you in the future!
+
+<p>
+James Schloss and Grant Sanderson
+
+<p>
+On to the feedback:
+<p>
+-----------------------------
+<p>
+"""
 
 #df = simple_sort("SoME1 Entries.csv", "SoME1_entries.csv", "SoME1_judges.csv")
 #find_missing_entrants(df, "SoME1 Peer Review.csv", "missing_entrants.csv")
