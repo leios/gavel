@@ -306,8 +306,8 @@ function send_emails(emails, names, specific_bodies, basic_body)
         message *= specific_bodies[i]
 
         sendEmailCmd = pipeline(IOBuffer(message), `sendmail -t`)
-        run(sendEmailCmd)
         println(emails[i])
+        run(sendEmailCmd)
         sleep(1)
     end
 end
