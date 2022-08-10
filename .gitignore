@@ -2,3 +2,5 @@ config.yaml
 *.pyc
 env/
 .vagrant/
+*.log
+*.csv
