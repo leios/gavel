@@ -111,7 +111,9 @@ function find_bad_indices(judge_df, entry_df)
     for i = 1:size(entry_df)[1]
         for j = 1:size(judge_df)[1]
             if strip(lowercase(entry_df[i, "Email Address"])) ==
-               strip(lowercase(judge_df[j, "Email Address"]))
+               strip(lowercase(judge_df[j, "Email Address"])) &&
+               strip(lowercase(entry_df[i, "Name(s)"])) ==
+               strip(lowercase(judge_df[j, "Name(s)"]))
                 found_item = true
             end
         end
@@ -131,7 +133,9 @@ function find_indices!(judge_df, entry_df)
     for i = 1:size(judge_df)[1]
         for j = 1:size(entry_df)[1]
             if strip(lowercase(entry_df[j, "Email Address"])) == 
-               strip(lowercase(judge_df[i, "Email Address"]))
+               strip(lowercase(judge_df[i, "Email Address"])) &&
+               strip(lowercase(entry_df[j, "Name(s)"])) == 
+               strip(lowercase(judge_df[i, "Name(s)"]))
                 append!(indices,j)
                 indices_size += 1 
             end
@@ -145,35 +149,39 @@ function find_indices!(judge_df, entry_df)
     return sort(indices)
 end
 
-function chunk_judges(judge_filename, output_file_judges)
+function chunk_judges(judge_filename::String,
+                      output_file_judges::String,
+                      additional_string::String)
     df = CSV.read(judge_filename, DataFrame)
+    df[!,"additional_string"] .= additional_string
 
-    leftover = size(df)[1]
+    left_over = size(df)[1]
+    i = 0
     while left_over > 0
         i += 1
         if left_over > 50
-            println(indices[(i-1)*50+1:i*50])
+            rng = (i-1)*50+1:i*50
+            println(rng)
             CSV.write(output_file_judges*string(i)*".csv",
-                      entry_df[indices[(i-1)*50+1:i*50],[2,3,4]])
+                      df[rng,[2,3,4]])
             left_over -= 50
         else
-            println(indices[(i-1)*50+1:(i-1)*50+left_over])
+            rng = (i-1)*50+1:(i-1)*50+left_over
+            println(rng)
             CSV.write(output_file_judges*string(i)*".csv",
-                      entry_df[indices[(i-1)*50+1:(i-1)*50+left_over],[2,3,4]])
+                      df[rng,[2,3,4]])
             left_over -= left_over
         end
     end
 
 end
 
-function chunk_judges(entry_df, judge_filename, output_file_judges,
-                      output_file_entrants)
+function chunk_judges(entry_df, judge_filename, output_file_judges)
     df = DataFrame(CSV.File(judge_filename))
     remove_duplicates!(df)
 
     indices = find_indices!(df, entry_df)
-
-    CSV.write(output_file_entrants, entry_df[indices,[2,6,4]])
+    println(indices)
 
     left_over = length(indices)
     i = 0
@@ -197,12 +205,21 @@ function chunk_judges(entry_df, judge_filename, output_file_judges,
     return df
 end
 
-function find_missing_entrants(entry_df, judge_filename, output_file)
-    df = DataFrame(CSV.File(judge_filename))
+function find_missing_entrants(entry_df, judge_filenames, output_file)
+    if isa(judge_filenames, Array) ||
+       isa(judge_filenames, Tuple)
+        df = DataFrame(CSV.File(judge_filenames[1]))
+        for i = 2:length(judge_filenames)
+            temp_df = DataFrame(CSV.File(judge_filenames[i]))
+            append!(df, temp_df)
+        end
+    else
+        df = DataFrame(CSV.File(judge_filenames))
+    end
 
     indices = find_bad_indices(df, entry_df)
 
-    CSV.write(output_file, entry_df[indices,[3,2]])
+    CSV.write(output_file, entry_df[indices,[2,3,4]])
 end
 
 function simple_sort(filename, video_output_file,
@@ -215,9 +232,9 @@ function simple_sort(filename, video_output_file,
     video_df = find_videos(df)
     nonvideo_df = find_nonvideos(df)
 
-    CSV.write(video_output_file, video_df[!,[3,6,4]])
-    CSV.write(nonvideo_output_file, nonvideo_df[!,[3,6,4]])
-    CSV.write(judge_file, df[!,[2,3,4]])
+    CSV.write(video_output_file, video_df[1:end,[3,6,4]])
+    CSV.write(nonvideo_output_file, nonvideo_df[1:end,[3,6,4]])
+    CSV.write(judge_file, df[1:end,[2,3,4]])
 
     return df
 end 
@@ -257,8 +274,8 @@ function find_names(df_selected, df_entries)
     return names
 end
 
-find_additional_judges(df, reviewer_inputfile, video_output_file
-                       nonvideo_output_file, both_output_file)
+function find_additional_judges(df, reviewer_input_file, video_output_file,
+                                nonvideo_output_file, both_output_file)
     reviewer_df = CSV.read(reviewer_input_file, DataFrame)
 
     # Remove reviewers with e-mail addresses in the entrant dataframe (df)
@@ -266,13 +283,16 @@ find_additional_judges(df, reviewer_inputfile, video_output_file
     bad_indices = []
     for i = 1:size(reviewer_df)[1]
         for j = 1:size(df)[1]
-            if reviewer_df[i, "Email Address"] == df[j, "Email Address"]
+            if strip(lowercase(reviewer_df[i, "Email Address"])) == 
+               strip(lowercase(df[j, "Email Address"])) &&
+               strip(lowercase(reviewer_df[i, "Name"])) == 
+               strip(lowercase(df[j, "Name(s)"]))
                 append!(bad_indices, i)
             end 
         end
     end
 
-    delete!(reviwer_df, bad_indices)
+    delete!(reviewer_df, bad_indices)
 
     video_indices = []
     nonvideo_indices = []
@@ -396,11 +416,27 @@ On to the feedback:
 """
 
 #df = simple_sort("SoME2 Entries.csv", "SoME2_entries_video.csv",
-                  "SoME2_entries_nonvideo.csv", "SoME2_judges.csv")
+#                 "SoME2_entries_nonvideo.csv", "SoME2_judges.csv")
 #find_missing_entrants(df, "SoME2 Peer Review.csv", "missing_entrants.csv")
-#judge_df = chunk_judges(df, "SoME2 Peer Review.csv", "judges", "entries.csv")
+#judge_df = chunk_judges(df, "SoME2 Peer Review.csv", "judges")
 #find_additional_judges(df, "SoME2 Reviewers.csv", "additional_video.csv",
-                        "additional_nonvideo.csv, "additional_both.csv")
-#chunk_judges("additional_video.csv", "additional_judges_video")
-#chunk_judges("additional_nonvideo.csv", "additional_judges_nonvideo")
-#chunk_judges("additional_both.csv", "additional_judges_both")
+#                       "additional_nonvideo.csv, "additional_both.csv")
+#chunk_judges("additional_video.csv", "chunked_additional_judges_video",
+#             "additional video judge")
+#chunk_judges("additional_nonvideo.csv", "chunked_additional_judges_nonvideo",
+#             "additional nonvideo judge")
+#chunk_judges("additional_both.csv", "chunked_additional_judges_both",
+#             "additional judge")
+
+df = simple_sort("example_entries.csv", "final_entries_video.csv",
+                 "final_entries_nonvideo.csv", "initial_judges.csv")
+find_missing_entrants(df, "initial_judges.csv", "missing_entrants.csv")
+judge_df = chunk_judges(df, "initial_judges.csv", "chunked_judges")
+find_additional_judges(df, "example_judges.csv", "additional_video.csv",
+                       "additional_nonvideo.csv", "additional_both.csv")
+chunk_judges("additional_video.csv", "chunked_additional_judges_video",
+             "additional video judge")
+chunk_judges("additional_nonvideo.csv", "chunked_additional_judges_nonvideo",
+             "additional nonvideo judge")
+chunk_judges("additional_both.csv", "chunked_additional_judges_both",
+             "additional judge")
