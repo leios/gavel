@@ -41,8 +41,8 @@ function format_cells!(df)
         end
 
         if !ismissing(df[i,6])
-            df[i,6] = replace(df[i,5], "," => "")
-            df[i,6] = replace(df[i,5], ";" => ".")
+            df[i,6] = replace(df[i,6], "," => "")
+            df[i,6] = replace(df[i,6], ";" => ".")
         end
     end
 end
@@ -163,13 +163,13 @@ function chunk_judges(judge_filename::String,
             rng = (i-1)*50+1:i*50
             println(rng)
             CSV.write(output_file_judges*string(i)*".csv",
-                      df[rng,[2,3,4]])
+                      df[rng,[1,2,4]])
             left_over -= 50
         else
             rng = (i-1)*50+1:(i-1)*50+left_over
             println(rng)
             CSV.write(output_file_judges*string(i)*".csv",
-                      df[rng,[2,3,4]])
+                      df[rng,[1,2,4]])
             left_over -= left_over
         end
     end
@@ -190,12 +190,12 @@ function chunk_judges(entry_df, judge_filename, output_file_judges)
         if left_over > 50
             println(indices[(i-1)*50+1:i*50])
             CSV.write(output_file_judges*string(i)*".csv",
-                      entry_df[indices[(i-1)*50+1:i*50],[2,3,4]])
+                      entry_df[indices[(i-1)*50+1:i*50],[3,2,4]])
             left_over -= 50
         else
             println(indices[(i-1)*50+1:(i-1)*50+left_over])
             CSV.write(output_file_judges*string(i)*".csv",
-                      entry_df[indices[(i-1)*50+1:(i-1)*50+left_over],[2,3,4]])
+                      entry_df[indices[(i-1)*50+1:(i-1)*50+left_over],[3,2,4]])
             left_over -= left_over
         end
     end
@@ -219,12 +219,12 @@ function find_missing_entrants(entry_df, judge_filenames, output_file)
 
     indices = find_bad_indices(df, entry_df)
 
-    CSV.write(output_file, entry_df[indices,[2,3,4]])
+    CSV.write(output_file, entry_df[indices,[3,2,4]])
 end
 
 function simple_sort(filename, video_output_file,
                      nonvideo_output_file, judge_file)
-    df = DataFrame(CSV.File(filename))
+    df = CSV.read(filename, DataFrame)
     remove_bad_links!(df)
     remove_duplicates!(df)
     format_cells!(df)
@@ -232,9 +232,9 @@ function simple_sort(filename, video_output_file,
     video_df = find_videos(df)
     nonvideo_df = find_nonvideos(df)
 
-    CSV.write(video_output_file, video_df[1:end,[3,6,4]])
-    CSV.write(nonvideo_output_file, nonvideo_df[1:end,[3,6,4]])
-    CSV.write(judge_file, df[1:end,[2,3,4]])
+    CSV.write(video_output_file, video_df[1:end,[3,4,6]])
+    CSV.write(nonvideo_output_file, nonvideo_df[1:end,[3,4,6]])
+    CSV.write(judge_file, df[1:end,[3,2,4]])
 
     return df
 end 
