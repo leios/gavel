@@ -1,3 +1,4 @@
+python==3.9.0
 amqp==5.0.6
 billiard==3.6.4.0
 cached-property==1.5.2
