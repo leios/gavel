@@ -232,8 +232,8 @@ function simple_sort(filename, video_output_file,
     video_df = find_videos(df)
     nonvideo_df = find_nonvideos(df)
 
-    CSV.write(video_output_file, video_df[1:end,[3,4,6]])
-    CSV.write(nonvideo_output_file, nonvideo_df[1:end,[3,4,6]])
+    CSV.write(video_output_file, video_df[1:end,[3,6,4]])
+    CSV.write(nonvideo_output_file, nonvideo_df[1:end,[3,6,4]])
     CSV.write(judge_file, df[1:end,[3,2,4]])
 
     return df
