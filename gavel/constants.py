@@ -14,7 +14,7 @@ SETTING_FALSE = 'false'
 # Defaults
 # these can be overridden via the config file
 DEFAULT_WELCOME_MESSAGE = '''
-Welcome to the Summer of Math Exposition Video Peer Review!
+Welcome to the Summer of Math Exposition Non-Video Peer Review!
 
 **Please read this important message carefully before continuing.**
 
@@ -73,13 +73,13 @@ If you find anything that you feel is out-of-line, please contact us at 3b1b.som
 
 '''.strip()
 
-DEFAULT_EMAIL_SUBJECT = 'Welcome to the SoME2 Video Peer Review!'
+DEFAULT_EMAIL_SUBJECT = 'Welcome to the SoME2 Non-Video Peer Review!'
 
 DEFAULT_EMAIL_BODY = '''
 Hello {name}!
 
 <p>
-Thank you for participatng in the Summer of Math Exposition 2 and welcome to the Video Peer Review!
+Thank you for participatng in the Summer of Math Exposition 2 and welcome to the Non-Video Peer Review!
 
 <p>
 Last year, many people really enjoyed the process of going through all of the entries and learning about a bunch of math content creators they did not know about before.
