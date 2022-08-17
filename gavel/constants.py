@@ -79,7 +79,7 @@ DEFAULT_EMAIL_BODY = '''
 Hello {name}!
 
 <p>
-Thank you for participatng in the Summer of Math Exposition 2 and welcome to the Video Peer Review!
+Thank you for participating in the Summer of Math Exposition 2 and welcome to the Video Peer Review!
 
 <p>
 Last year, many people really enjoyed the process of going through all of the entries and learning about a bunch of math content creators they did not know about before.
