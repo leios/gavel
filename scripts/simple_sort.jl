@@ -68,6 +68,8 @@ function remove_bad_links!(df)
         end
     end
 
+    println(bad_indices .+ 1)
+
     delete!(df, bad_indices)
 end
 
@@ -101,6 +103,7 @@ function remove_duplicates!(df)
     end
 
     sort!(bad_indices)
+
     delete!(df, bad_indices)
 
 end
@@ -277,6 +280,8 @@ end
 function find_additional_judges(df, reviewer_input_file, video_output_file,
                                 nonvideo_output_file, both_output_file)
     reviewer_df = CSV.read(reviewer_input_file, DataFrame)
+    dropmissing!(reviewer_df, "Email Address")
+    dropmissing!(reviewer_df, "Name(s)")
 
     # Remove reviewers with e-mail addresses in the entrant dataframe (df)
 
@@ -285,12 +290,14 @@ function find_additional_judges(df, reviewer_input_file, video_output_file,
         for j = 1:size(df)[1]
             if strip(lowercase(reviewer_df[i, "Email Address"])) == 
                strip(lowercase(df[j, "Email Address"])) &&
-               strip(lowercase(reviewer_df[i, "Name"])) == 
+               strip(lowercase(reviewer_df[i, "Name(s)"])) == 
                strip(lowercase(df[j, "Name(s)"]))
                 append!(bad_indices, i)
             end 
         end
     end
+
+    println(bad_indices .+ 1)
 
     delete!(reviewer_df, bad_indices)
 
@@ -314,9 +321,13 @@ function find_additional_judges(df, reviewer_input_file, video_output_file,
     nonvideo_df = reviewer_df[nonvideo_indices,:]
     both_df = reviewer_df[both_indices,:]
 
-    CSV.write(video_output_file, video_df[!,[2,3,4]])
-    CSV.write(nonvideo_output_file, nonvideo_df[!,[2,3,4]])
-    CSV.write(both_output_file, both_df[!,[2,3,4]])
+    remove_duplicates!(video_df)
+    remove_duplicates!(nonvideo_df)
+    remove_duplicates!(both_df)
+
+    CSV.write(video_output_file, video_df[!,[3,2,4]])
+    CSV.write(nonvideo_output_file, nonvideo_df[!,[3,2,4]])
+    CSV.write(both_output_file, both_df[!,[3,2,4]])
 end
 
 
@@ -428,11 +439,11 @@ On to the feedback:
 #chunk_judges("additional_both.csv", "chunked_additional_judges_both",
 #             "additional judge")
 
-df = simple_sort("example_entries.csv", "final_entries_video.csv",
+df = simple_sort("input_entries.csv", "final_entries_video.csv",
                  "final_entries_nonvideo.csv", "initial_judges.csv")
 find_missing_entrants(df, "initial_judges.csv", "missing_entrants.csv")
 judge_df = chunk_judges(df, "initial_judges.csv", "chunked_judges")
-find_additional_judges(df, "example_judges.csv", "additional_video.csv",
+find_additional_judges(df, "input_additional_judges.csv", "additional_video.csv",
                        "additional_nonvideo.csv", "additional_both.csv")
 chunk_judges("additional_video.csv", "chunked_additional_judges_video",
              "additional video judge")
