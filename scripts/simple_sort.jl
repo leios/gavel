@@ -439,15 +439,17 @@ On to the feedback:
 #chunk_judges("additional_both.csv", "chunked_additional_judges_both",
 #             "additional judge")
 
-df = simple_sort("input_entries.csv", "final_entries_video.csv",
-                 "final_entries_nonvideo.csv", "initial_judges.csv")
-find_missing_entrants(df, "initial_judges.csv", "missing_entrants.csv")
-judge_df = chunk_judges(df, "initial_judges.csv", "chunked_judges")
-find_additional_judges(df, "input_additional_judges.csv", "additional_video.csv",
-                       "additional_nonvideo.csv", "additional_both.csv")
-chunk_judges("additional_video.csv", "chunked_additional_judges_video",
+df = simple_sort("input_entries.csv", "final_entries_video_temp.csv",
+                 "final_entries_nonvideo_temp.csv", "initial_judges_temp.csv")
+#find_missing_entrants(df, "initial_judges.csv", "missing_entrants.csv")
+#judge_df = chunk_judges(df, "initial_judges.csv", "chunked_judges")
+find_additional_judges(df, "input_additional_judges_2.csv",
+                       "additional_video2.csv",
+                       "additional_nonvideo2.csv", "additional_both2.csv")
+chunk_judges("additional_video2.csv", "chunked_additional_judges_video_2_",
              "additional video judge")
-chunk_judges("additional_nonvideo.csv", "chunked_additional_judges_nonvideo",
+chunk_judges("additional_nonvideo2.csv",
+             "chunked_additional_judges_nonvideo_2_",
              "additional nonvideo judge")
-chunk_judges("additional_both.csv", "chunked_additional_judges_both",
+chunk_judges("additional_both2.csv", "chunked_additional_judges_both_2_",
              "additional judge")
