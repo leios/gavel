@@ -36,7 +36,7 @@ If at any point, you do not feel qualified to judge a particular submission, you
 Gavel provides each person a link based on all of the votes being collected in real time, so if you skip an entry, you are removing a valuable piece of information from the network!
 That said, if there is a project that is improperly formatted or does not have an appropriate link, please e-mail 3b1b.some@gmail.com and then skip that entry.
 
-For specific questions, please checkout out the <a href="https://github.com/leios/gavel/wiki/Frequently-Asked-Questions">FAQ</a> or <a href="https://discord.gg/Vkf29b5s">Discord</a>.
+For specific questions, please checkout out the <a href="https://github.com/leios/gavel/wiki/Frequently-Asked-Questions">FAQ</a> or <a href="https://discord.gg/m965SD7UyP">Discord</a>.
 If you cannot find appropriate answers there, please contact 3b1b.some@gmail.com.
 
 Thanks again for participating in the Summer of Math Exposition!
@@ -102,7 +102,7 @@ If you would like a 15 minute video overview of how the Peer Review works, pleas
 For more information about Gavel (the software used for the Peer Review), please read either <a href="https://www.anishathalye.com/2015/03/07/designing-a-better-judging-system/">this</a> and <a href="https://www.anishathalye.com/2015/11/09/implementing-a-scalable-judging-system/">this</a> blog post.
 
 <p>
-For specific questions, please checkout out the <a href="https://github.com/leios/gavel/wiki/Frequently-Asked-Questions">FAQ</a> or <a href="https://discord.gg/Vkf29b5s">Discord</a>.
+For specific questions, please checkout out the <a href="https://github.com/leios/gavel/wiki/Frequently-Asked-Questions">FAQ</a> or <a href="https://discord.gg/m965SD7UyP">Discord</a>.
 if you cannot find your answers there, please contact us at 3b1b.some@gmail.com
 
 <p>
