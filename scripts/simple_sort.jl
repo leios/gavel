@@ -2,6 +2,27 @@ using CSV
 using DataFrames
 using DelimitedFiles
 
+function find_emails(entry_filename, ranking_filename, output_filename)
+
+    entry_df = CSV.read(entry_filename, DataFrame)
+    ranking_df = CSV.read(ranking_filename, DataFrame)
+    
+    indices = zeros(Int,size(ranking_df)[1])
+    for i = 1:size(ranking_df)[1]
+        for j = 1:size(entry_df)[1]
+            if strip(ranking_df[i,"link"]) == strip(entry_df[j,"Link to your submission"])
+                indices[i] = j
+            end
+        end
+        if indices[i] == 0
+            println(ranking_df[i,:])
+        end
+    end
+
+    CSV.write(output_filename, entry_df[indices,["Name(s)", "Email Address"]])
+
+end
+
 function find_slug(str::Nothing)
     return "none"
 end
@@ -439,17 +460,17 @@ On to the feedback:
 #chunk_judges("additional_both.csv", "chunked_additional_judges_both",
 #             "additional judge")
 
-df = simple_sort("input_entries.csv", "final_entries_video_temp.csv",
-                 "final_entries_nonvideo_temp.csv", "initial_judges_temp.csv")
+#df = simple_sort("input_entries.csv", "final_entries_video_temp.csv",
+#                 "final_entries_nonvideo_temp.csv", "initial_judges_temp.csv")
 #find_missing_entrants(df, "initial_judges.csv", "missing_entrants.csv")
 #judge_df = chunk_judges(df, "initial_judges.csv", "chunked_judges")
-find_additional_judges(df, "input_additional_judges_2.csv",
-                       "additional_video2.csv",
-                       "additional_nonvideo2.csv", "additional_both2.csv")
-chunk_judges("additional_video2.csv", "chunked_additional_judges_video_2_",
-             "additional video judge")
-chunk_judges("additional_nonvideo2.csv",
-             "chunked_additional_judges_nonvideo_2_",
-             "additional nonvideo judge")
-chunk_judges("additional_both2.csv", "chunked_additional_judges_both_2_",
-             "additional judge")
+#find_additional_judges(df, "input_additional_judges_3.csv",
+#                       "additional_video3.csv",
+#                       "additional_nonvideo3.csv", "additional_both3.csv")
+#chunk_judges("additional_video3.csv", "chunked_additional_judges_video_3_",
+#             "additional video judge")
+#chunk_judges("additional_nonvideo3.csv",
+#             "chunked_additional_judges_nonvideo_3_",
+#             "additional nonvideo judge")
+#chunk_judges("additional_both3.csv", "chunked_additional_judges_both_3_",
+#             "additional judge")
