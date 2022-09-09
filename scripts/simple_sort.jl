@@ -27,7 +27,7 @@ function find_slug(str::Nothing)
     return "none"
 end
 
-function find_slug(str::String)
+function find_slug(str::S) where S <: AbstractString
     str = strip(str)
     if findfirst("youtube.com", str) != nothing
         if findfirst("channel/", str) != nothing
@@ -354,7 +354,7 @@ end
 
 function send_feedback(feedback_df, entry_df, basic_body)
 
-    dropmissing!(feedback_df)
+    #dropmissing!(feedback_df)
 
     names = []
     emails = []
@@ -362,31 +362,31 @@ function send_feedback(feedback_df, entry_df, basic_body)
     chosen_slugs = []
 
     for i = 1:size(feedback_df)[1]
-        slug = find_slug(feedback_df[i,2])
+        slug = find_slug(feedback_df[i,"Link to the entry:"])
         if slug != "channel" && slug != "none"
-            feedback_df[i,2] = slug
+            feedback_df[i,"Link to the entry:"] = strip(slug)
         end
     end
 
     for i = 1:size(entry_df)[1]
-        slug = find_slug(entry_df[i,4])
+        slug = find_slug(entry_df[i,"Link to your submission"])
         if slug != "channel" && slug != "none"
-            entry_df[i,4] = slug
+            entry_df[i,"Link to your submission"] = strip(slug)
         end
     end
 
     for i = 1:size(feedback_df)[1]
-        slug = feedback_df[i,2]
+        slug = feedback_df[i,"Link to the entry:"]
         if in(slug, chosen_slugs)
             elid = findfirst(x->x==slug,chosen_slugs)
-            specific_bodies[elid] *= feedback_df[i,3]*"<p>-----<p>"
+            specific_bodies[elid] *= feedback_df[i,"Feedback:"]*"<p>-----<p>"
         else
-            if in(slug,entry_df[:,4])
+            if in(slug,entry_df[:,"Link to your submission"])
                 push!(chosen_slugs, slug)
-                push!(specific_bodies, feedback_df[i,3]*"<p>-----<p>")
-                elid = findfirst(x->x==slug,entry_df[:,4])
-                push!(names, entry_df[elid,3])
-                push!(emails, entry_df[elid,2])
+                push!(specific_bodies, feedback_df[i,"Feedback:"]*"<p>-----<p>")
+                elid = findfirst(x->x==slug,entry_df[:,"Link to your submission"])
+                push!(names, entry_df[elid,"Name(s)"])
+                push!(emails, entry_df[elid,"Email Address"])
             else
                 println("could not find "*slug)
             end
@@ -394,14 +394,16 @@ function send_feedback(feedback_df, entry_df, basic_body)
         end
     end
     
-    return hcat(emails, names, specific_bodies, chosen_slugs)
-    #send_emails(emails, names, specific_bodies, basic_body)
+    #return hcat(emails, names, specific_bodies, chosen_slugs)
+    send_emails(emails, names, specific_bodies, basic_body)
 end
 
+# Setup: https://wiki.archlinux.org/title/msmtp
 function send_emails(emails, names, specific_bodies, basic_body)
     for i = 1:length(emails)
-        message = "To: "*emails[i]*"\n"
-        message *= "From: 3b1b.some@gmail.com\n"
+        message = "To: "*
+                  replace(names[i],","=>" and")*" <"*emails[i]*">\n"
+        message *= "From: Summer of Math Exposition <3b1b.some@gmail.com>\n"
         message *= "Subject: SoME2 Specific Feedback\n"
         message *= "Mime-Version: 1.0\n"
         message *= "Content-Type: text/html\n\n"
@@ -412,33 +414,22 @@ function send_emails(emails, names, specific_bodies, basic_body)
         sendEmailCmd = pipeline(IOBuffer(message), `sendmail -t`)
         println(emails[i])
         run(sendEmailCmd)
-        sleep(1)
+        sleep(5)
     end
 end
 
 basic_body = """
 <p>
-Thanks again for submitting exposition to the Summer of Math Exposition (SoME2) competition this year!
+Thanks again for submitting your entry to the Summer of Math Exposition (SoME2) competition this year!
 
 <p>
-We could not be happier with the content people have created for this competition and are looking forward to running it again next year! No matter how you did, you should be really proud of the content you made!
+We could not be happier with the content people have created for this competition and are looking forward to running it again next year. No matter how you did, you should be really proud of the content you made!
 
 <p>
-During the peer review process, we asked people to provide specific feedback about the entries they were judging and have decided to return most of that feedback to you now; however, before reading it, there are a few things to keep in mind:
-
-<ol>
-<li>The SoME2 peer reviewers were quite biased towards video content. In fact, many reviewers mistakenly believed this competition was a video contest. This was one of the biases we tried to correct for at the end of the peer review, but if you made a non-video entry, there is a possibility that your specific feedback was asking for a video of some kind. </li>
-<li>We tried to pre-screen all the comments made, but might have missed some comments that were out-of-line (such as crude remarks, unjustified claims, or generally unhelpful / incorrect advice).</li>
-</ol>
+During the Peer Review process, we asked the reviewers to provide specific feedback about the entries they were judging and have decided to return most of that feedback to you now; however, before reading it, please keep in mind that we tried to pre-screen everything, but might have missed some comments that were out-of-line (such as crude remarks, unjustified claims, or generally unhelpful / incorrect advice)
 
 <p>
-Please keep in mind that this feedback is not from Grant or I, but instead from other SoME2 participants who may or may not be justified in making the statements they have made, so take everything they have said with a grain of salt and really consider whether their feedback is valid or not. On the other hand, this feedback is from motivated individuals who have also made math content and know how challenging it can be, so they might know more than you think!
-
-<p>
-Ok, that's all for now. Thank you for helping make the first Summer of Math Exposition a smashing success! We look forward to seeing more from you in the future!
-
-<p>
-James Schloss and Grant Sanderson
+Remember, the following message(s) is(are) not from Grant or I, but instead from community members who have likely also made some form of math content and know how challenging it can be. It should also give you some perspective on how you did during the Peer Review and what could be improved in the future.
 
 <p>
 On to the feedback:
