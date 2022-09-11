@@ -4,8 +4,8 @@ import sys
 import csv
 import time
 
-from apiclient.discovery import build
-from apiclient.errors import HttpError
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
@@ -22,7 +22,7 @@ from oauth2client.tools import argparser, run_flow
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 
-CLIENT_SECRETS_FILE = "client_secrets_3.json"
+CLIENT_SECRETS_FILE = "client_secrets_4.json"
 
 # This variable defines a message to display if the CLIENT_SECRETS_FILE is
 # missing.
@@ -80,13 +80,13 @@ def add_video_to_playlist(youtube,videoID,playlistID):
 
 if __name__ == '__main__':
     youtube = get_authenticated_service()
-    with open('final_slugs.csv', newline='') as f:
+    with open('final_slugs_2.csv', newline='') as f:
         reader = csv.reader(f)
         data = list(reader)
     for i in range (0,len(data)):
         # this is to circumvent google api restrictions of 100 requests every
         # 100 seconds
         time.sleep(2)
-        print(data[i][0])
         add_video_to_playlist(youtube,data[i][0],"PLnQX-jgAF5pTZXPiD8ciEARRylD9brJXU")
+        print("completed: ", data[i][0])
 
