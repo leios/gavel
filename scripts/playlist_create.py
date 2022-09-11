@@ -80,7 +80,7 @@ def add_video_to_playlist(youtube,videoID,playlistID):
 
 if __name__ == '__main__':
     youtube = get_authenticated_service()
-    with open('final_slugs_2.csv', newline='') as f:
+    with open('final_slugs.csv', newline='') as f:
         reader = csv.reader(f)
         data = list(reader)
     for i in range (0,len(data)):
@@ -88,5 +88,5 @@ if __name__ == '__main__':
         # 100 seconds
         time.sleep(2)
         print(data[i][0])
-        add_video_to_playlist(youtube,data[i][0],"PLnQX-jgAF5pTkwtUuVpqS5tuWmJ-6ZM-Z")
+        add_video_to_playlist(youtube,data[i][0],"PLnQX-jgAF5pTZXPiD8ciEARRylD9brJXU")
 
